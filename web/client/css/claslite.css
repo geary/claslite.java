@@ -27,64 +27,65 @@ html, body {
 /* Tabs */
 
 div.tabs {
-	width:100%;
-	background:url("../images/tabs-background.gif") repeat-x bottom;
-	line-height:normal;
+	width: 100%;
+	background: url("../images/tabs-background.gif") repeat-x bottom;
+	line-height: normal;
 }
 
 ul.tabs {
-	margin:0;
+	margin: 0;
 	padding: 4px 10px 0 8px;
-	list-style:none;
+	list-style: none;
 }
 
 ul.tabs li {
-	display:inline;
-	margin:0;
-	padding:0;
+	display: inline;
+	margin: 0;
+	padding: 0;
 }
 
 ul.tabs a {
-	float:left;
-	outline:none;
-	background:url("../images/tabs-left.gif") no-repeat left top;
-	margin:0 6px 0 0;
-	padding:0 0 0 9px;
-	border-bottom:1px solid #84B0C7;
-	text-decoration:none;
+	float: left;
+	outline: none;
+	background: url("../images/tabs.gif") no-repeat left top;
+	margin: 0 6px 0 0;
+	padding: 0 0 0 9px;
+	border-bottom: 1px solid #84B0C7;
+	text-decoration: none;
 }
 
 ul.tabs a span {
-	float:left;
-	display:block;
-	background:url("../images/tabs-right.gif") no-repeat right top;
-	padding:5px 15px 4px 6px;
-	font-weight:bold;
-	color:#555;
+	float: left;
+	display: block;
+	cursor: pointer;
+	background: url("../images/tabs.gif") no-repeat right top;
+	padding: 5px 15px 4px 6px;
+	font-weight: bold;
+	color: #555;
 }
 
 ul.tabs a.hover span {
-	color:#555;
+	color: #555;
 }
 
 ul.tabs li.selected a {
-	background-position:0 -150px;
-	border-width:0;
-	margin-top:-2px;
+	background-position: 0 -150px;
+	border-width: 0;
+	margin-top: -2px;
 }
 
 ul.tabs li.selected a span {
-	background-position:100% -150px;
-	padding-bottom:7px;
-	color:#000;
+	background-position: 100% -150px;
+	padding-bottom: 7px;
+	color: #000;
 }
 
 ul.tabs a.hover {
-	background-position:0% -150px;
+	background-position: 0% -150px;
 }
 
 ul.tabs a.hover span {
-	background-position:100% -150px;
+	background-position: 100% -150px;
 }
 
 #tabs-base {
