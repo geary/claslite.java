@@ -34,6 +34,8 @@
 			$list.find('li').removeClass(selectedClass);
 			$('#'+id).addClass(selectedClass);
 			a.click && a.click( id );
+			$(a.panels).children().hide();
+			$('#'+id+'-panel').show();
 		}
 		return {
 			select: select

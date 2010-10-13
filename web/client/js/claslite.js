@@ -11,19 +11,21 @@
 	
 	function initUI() {
 		initTabs();
+		$('#outermost').show();
 	}
 	
 	function initTabs() {
 		app.tabs = S.Tabs({
 			parent: '#tabs',
+			panels: '#sidebar',
 			tabs: {
 				location: 'Location',
-				cover: 'Forest Cover',
-				change: 'Forest Change',
+				forestcover: 'Forest Cover',
+				forestchange: 'Forest Change',
 				help: 'Help'
 			},
 			click: function( id ) {
-				$('#sidebar').html( this.tabs[id] );
+				//$('#sidebar').html( this.tabs[id] );
 			}
 		});
 		
