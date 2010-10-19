@@ -1,5 +1,5 @@
 // Scriptino Tabs
-// Copyright 2008-2010 Michael Geary - http://mg.to/
+// Copyright 2010 Michael Geary - http://mg.to/
 // Use under any Open Source license:
 // http://www.opensource.org/licenses/
 
