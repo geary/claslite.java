@@ -54,6 +54,13 @@
 	function initMap() {
 		app.map = new S.Map( app.$mapwrap );
 		app.map.fitBounds( -26, -80, 5, -35 );
+		app.map.geoclick({
+			form: '#location-search-form',
+			input: '#location-search-input',
+			list: '#location-results-list',
+			click: function() {
+			}
+		});
 	}
 	
 	function initSizer() {

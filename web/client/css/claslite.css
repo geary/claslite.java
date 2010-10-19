@@ -195,6 +195,13 @@ ul.tabs a.hover span {
 
 /* Locations */
 
+#location-search-form {
+	width: 330px;
+	padding-bottom: 6px;
+	border-bottom: 1px solid #888;
+	margin-bottom: 6px;
+}
+
 #location-search-input, #location-search-buttons {
 	margin-top: 6px;
 	display: block;

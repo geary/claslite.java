@@ -12,9 +12,6 @@
 		
 		var sm = this;
 		S.extend( sm, {
-			
-			geocoder: new gm.Geocoder(),
-			
 			map: new gm.Map( $map[0], {
 				mapTypeId: google.maps.MapTypeId.ROADMAP
 			}),
@@ -28,8 +25,36 @@
 				);
 			},
 			
+			geoclick: function( opt ) {
+				var $form = $(opt.form), $input = $(opt.input), $list = $('<div>');
+				$(opt.list).html( $list );
+				sm.geocoder = sm.geocoder || new S.Geocoder;
+				
+				sm.clickCoder = sm.clickCoder  ||
+					gme.addListener( sm.map, 'click', function( event ) {
+						geocode({ location: event.latLng });
+					});
+				
+				$form.submit( function( event ) {
+					event.preventDefault();
+					geocode({ address: $input.val() });
+				});
+				
+				function geocode( request ) {
+					sm.geocoder.geocode( request, function( results, status ) {
+						var $ul = $('<ul>');
+						if( status == gm.GeocoderStatus.OK ) {
+							results.forEach( function( result ) {
+								var $li = $('<li>').text( result.formatted_address ).appendTo($ul);
+							});
+						}
+						$list.html( $ul );
+					});
+				}
+			},
+			
 			resize: function() {
-				gm.event.trigger( sm.map, 'resize' );
+				gme.trigger( sm.map, 'resize' );
 			}
 		});
 		
@@ -41,7 +66,7 @@
 		}
 		
 		gme.addListener( sm.map, 'click', function( event ) {
-			console.log( 'click', event.latLng );
+			//console.log( 'click', event.latLng );
 			cancelClick();
 			sm.clicker = setTimeout( function() {
 				gme.trigger( sm.map, 'Scriptino_singleclick', event );
@@ -49,12 +74,24 @@
 		});
 		
 		gme.addListener( sm.map, 'dblclick', function( event ) {
-			console.log( 'dblclick', event.latLng );
+			//console.log( 'dblclick', event.latLng );
 			cancelClick();
 		});
 		
 		gme.addListener( sm.map, 'Scriptino_singleclick', function( event ) {
-			console.log( 'Scriptino_singleclick', event.latLng );
+			//console.log( 'Scriptino_singleclick', event.latLng );
+		});
+	};
+	
+	S.Geocoder = function() {
+		var sg = this;
+		S.extend( sg, {
+			
+			geocoder: new gm.Geocoder(),
+			
+			geocode: function( request, callback ) {
+				sg.geocoder.geocode( request, callback );
+			}
 		});
 	};
 	
