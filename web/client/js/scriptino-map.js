@@ -5,7 +5,7 @@
 
 (function( S, $ ) {
 	
-	var gm = google.maps;
+	var gm = google.maps, gme = gm.event;
 	
 	S.Map = function( $map ) {
 		$map = $($map);
@@ -31,6 +31,30 @@
 			resize: function() {
 				gm.event.trigger( sm.map, 'resize' );
 			}
+		});
+		
+		function cancelClick() {
+			if( sm.clicker ) {
+				clearTimeout( sm.clicker );
+				delete sm.clicker;
+			}
+		}
+		
+		gme.addListener( sm.map, 'click', function( event ) {
+			console.log( 'click', event.latLng );
+			cancelClick();
+			sm.clicker = setTimeout( function() {
+				gme.trigger( sm.map, 'Scriptino_singleclick', event );
+			}, 500 );
+		});
+		
+		gme.addListener( sm.map, 'dblclick', function( event ) {
+			console.log( 'dblclick', event.latLng );
+			cancelClick();
+		});
+		
+		gme.addListener( sm.map, 'Scriptino_singleclick', function( event ) {
+			console.log( 'Scriptino_singleclick', event.latLng );
 		});
 	};
 	
