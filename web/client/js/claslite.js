@@ -17,6 +17,7 @@
 		initTabs();
 		initSizer();
 		resize();
+		initMap();
 		$('#outermost').show();
 	}
 	
@@ -50,6 +51,16 @@
 		app.tabs.select( 'location' );
 	}
 	
+	function initMap() {
+		app.map = new S.Map( app.$mapwrap );
+		app.map.fitBounds(
+			-26,
+			-80,
+			5,
+			-35
+		);
+	}
+	
 	function initSizer() {
 		$(window).resize( resize );
 	}
@@ -57,7 +68,8 @@
 	function resize() {
 		var ww = app.$window.width(), wh = app.$window.height();
 		app.$main.css({ height: wh - app.$main.offset().top });
-		app.$mapwrap.css({ width: ww - layout.sidebarWidth });
+		app.$mapwrap.css({ width: ww - layout.sidebarWidth - 1 });
+		app.map && app.map.resize();
 	}
 	
 })();

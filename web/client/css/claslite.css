@@ -186,11 +186,11 @@ ul.tabs a.hover span {
 	left: 0;
 	top: 0;
 	height: 100%;
-	border-right:1px solid #DDD;
 }
 
 #sidebar {
 	margin: 8px;
+	width: 100%;
 }
 
 /* Locations */
@@ -214,6 +214,7 @@ ul.tabs a.hover span {
 
 #mapwrap {
 	position: absolute;
+	border-left:1px solid #888;
 	left: 350px;
 	top: 0;
 	height: 100%;
