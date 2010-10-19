@@ -172,11 +172,20 @@ ul.tabs a.hover span {
 	background: #D5E1E8 url("../images/tabs-background.gif") repeat-x bottom;
 }
 
+/* Main */
+
+#main {
+	position: relative;
+	width: 100%;
+}
+
 /* Sidebar */
 
 #sidebar-outer {
-	width: 350px;
-	position: relative;
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100%;
 	border-right:1px solid #DDD;
 }
 
@@ -199,4 +208,13 @@ ul.tabs a.hover span {
 #location-search-submit {
 	display: block;
 	float: right;
+}
+
+/* Map */
+
+#mapwrap {
+	position: absolute;
+	left: 350px;
+	top: 0;
+	height: 100%;
 }

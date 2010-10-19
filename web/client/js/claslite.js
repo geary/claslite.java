@@ -5,13 +5,31 @@
 
 (function() {
 	
-	var app = {};
+	var app;
+	var layout = {
+		sidebarWidth: 350
+	};
 	
 	$().ready( initUI );
 	
 	function initUI() {
+		initVars();
 		initTabs();
+		initSizer();
+		resize();
 		$('#outermost').show();
+	}
+	
+	function initVars() {
+		app = {
+			$window: $(window),
+			$main: $('#main'),
+			$tabs: $('#tabs'),
+			$sidebarOuter: $('#sidebar-outer'),
+			$sidebar: $('#sidebar'),
+			$mapwrap: $('#mapwrap'),
+			_: null
+		};
 	}
 	
 	function initTabs() {
@@ -30,6 +48,16 @@
 		});
 		
 		app.tabs.select( 'location' );
+	}
+	
+	function initSizer() {
+		$(window).resize( resize );
+	}
+	
+	function resize() {
+		var ww = app.$window.width(), wh = app.$window.height();
+		app.$main.css({ height: wh - app.$main.offset().top });
+		app.$mapwrap.css({ width: ww - layout.sidebarWidth });
 	}
 	
 })();
