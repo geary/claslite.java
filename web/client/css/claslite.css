@@ -71,6 +71,26 @@ html, body {
 	overflow: hidden;
 }
 
+.clear-left {
+	clear: left;
+}
+
+.clear-right {
+	clear: right;
+}
+
+.clear-both {
+	clear: both;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
 /* Header */
 
 #header {
@@ -152,3 +172,31 @@ ul.tabs a.hover span {
 	background: #D5E1E8 url("../images/tabs-background.gif") repeat-x bottom;
 }
 
+/* Sidebar */
+
+#sidebar-outer {
+	width: 350px;
+	position: relative;
+	border-right:1px solid #DDD;
+}
+
+#sidebar {
+	margin: 8px;
+}
+
+/* Locations */
+
+#location-search-input, #location-search-buttons {
+	margin-top: 6px;
+	display: block;
+	width: 330px;
+}
+
+#location-search-buttons {
+	position: relative;
+}
+
+#location-search-submit {
+	display: block;
+	float: right;
+}
