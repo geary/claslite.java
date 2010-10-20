@@ -28,6 +28,7 @@
 		resize();
 		initMap();
 		$('#outermost').show();
+		resize();
 	}
 	
 	function initVars() {
