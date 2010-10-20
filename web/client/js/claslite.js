@@ -10,6 +10,14 @@
 		sidebarWidth: 350
 	};
 	
+	S.extend( $.fn.mColorPicker.defaults, {
+		imageFolder: 'images/mColorPicker/'
+	});
+	S.extend( $.fn.mColorPicker.init, {
+		replace: '.color-picker',
+		showLogo: false
+	});
+
 	$().ready( initUI );
 	
 	function initUI() {

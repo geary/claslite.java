@@ -217,6 +217,16 @@ ul.tabs a.hover span {
 	float: right;
 }
 
+/* Color picker */
+
+input.color-picker {
+	width:80px;
+}
+
+#mColorPickerInput {
+	font-size:13px !important;
+}
+
 /* Map */
 
 #mapwrap {

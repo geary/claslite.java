@@ -16,6 +16,7 @@
 	<script type="text/javascript" src="js/scriptino-base.js"></script>
 	<script type="text/javascript" src="js/scriptino-tabs.js"></script>
 	<script type="text/javascript" src="js/scriptino-map.js"></script>
+	<script type="text/javascript" src="js/mColorPicker.js"></script>
 	<script type="text/javascript" src="js/claslite.js"></script>
 	
 </head>
@@ -52,7 +53,23 @@
 					</div>
 					
 					<div id="forestcover-panel">
-						Forest Cover
+						<form class="color-pickers" id="forestcover-colors">
+							<div>
+								<input class="color-picker" data-hex="true" name="forest-color" id="forest-color" value="#123456">
+								<label for="forest-color">Forest</label>
+							</div>
+							<div>
+								<input class="color-picker" data-hex="true" name="nonforest-color" id="nonforest-color" value="#7890AB">
+								<label for="nonforest-color">Non-forest</label>
+							</div>
+							<div>
+								<input class="color-picker" data-hex="true" name="nodata-color" id="nodata-color" value="#CDEF01">
+								<label for="nodata-color">No data</label>
+							</div>
+							<!--<br />-->
+							<!--<input type="submit" value="submit" />-->
+						</form>
+
 					</div>
 					
 					<div id="forestchange-panel">
