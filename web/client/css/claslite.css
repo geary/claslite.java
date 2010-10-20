@@ -189,7 +189,7 @@ ul.tabs a.hover span {
 }
 
 #sidebar {
-	margin: 8px;
+	margin: 12px 10px;
 	width: 100%;
 }
 
@@ -219,8 +219,12 @@ ul.tabs a.hover span {
 
 /* Color picker */
 
+div.color-picker-row {
+	margin-bottom: 6px;
+}
+
 input.color-picker {
-	width:80px;
+	width:70px;
 }
 
 #mColorPickerInput {
