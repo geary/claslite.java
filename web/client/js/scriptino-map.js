@@ -16,6 +16,22 @@
 				mapTypeId: google.maps.MapTypeId.ROADMAP
 			}),
 			
+			addLayer: function( opt ) {
+				var layerMapType = new gm.ImageMapType({
+					minZoom: opt.minZoom,
+					maxZoom: opt.maxZoom,
+					tileSize: new gm.Size( 256, 256 ),
+					isPng: true,
+					getTileUrl: function( coord, zoom ) {
+						return opt.tiles
+							.replace( '%x', coord.x )
+							.replace( '%y', coord.y )
+							.replace( '%z', zoom );
+					}
+				});
+				sm.map.overlayMapTypes.insertAt( 0, layerMapType );
+			},
+			
 			fitBounds: function( s, w, n, e ) {
 				sm.map.fitBounds(
 					new gm.LatLngBounds(
