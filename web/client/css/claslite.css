@@ -299,3 +299,14 @@ input.color-picker {
 	top: 0;
 	height: 100%;
 }
+
+/* CIS logo */
+
+#cis-logo {
+	position: absolute;
+	right: 5px;
+	bottom: 20px;
+	width: 180px;
+	height: 81px;
+	background: url(../images/cis-logo.gif) no-repeat;
+}
