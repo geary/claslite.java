@@ -23,8 +23,7 @@
 			map.enableContinuousZoom();
 			map.enableDoubleClickZoom();
 			//map.enableScrollWheelZoom();
-			map.addControl( new GLargeMapControl );
-			//map.addControl( new GLargeMapControl3D );
+			map.addControl( new GLargeMapControl3D );
 			map.addControl( new GMapTypeControl );
 		}
 		else {
