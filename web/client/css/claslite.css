@@ -240,18 +240,18 @@ input.color-picker {
 
 /* slider root element */
 .slider { 
-	background:#3C72E6 url(../images/h30.png) repeat-x 0 0; 
+	background-color:D5E1E8;
 	height:8px; 
 	position:relative; 
 	cursor:pointer;
-	border:1px solid #333;
+	border:1px solid #84B0C7;
 	width:150px;
 	float:left; 
 	clear:right;
 	margin-top:9px;
 	-moz-border-radius:4px; 
 	-webkit-border-radius:4px; 
-	-moz-box-shadow:inset 0 0 8px #000;
+	-moz-box-shadow:inset 0 0 8px #84B0C7
 }
 
 /* progress bar (enabled with progress: true) */
@@ -265,16 +265,16 @@ input.color-picker {
 /* drag handle */
 .handle { 
 	background:#fff url(../images/h30.png) repeat-x 0 0; 
-	height:18px;
-	width:18px;
+	height:16px;
+	width:16px;
 	top:-7px;
 	position:absolute; 
 	display:block; 
 	margin-top:1px;
-	border:1px solid #000;
+	border:2px solid #84B0C7;
 	cursor:pointer;
-	-moz-box-shadow:0 0 4px #000;
-	-webkit-box-shadow:0 0 4px #000;
+	-moz-box-shadow:0 0 4px #84B0C7;
+	-webkit-box-shadow:0 0 4px #84B0C7;
 	-moz-border-radius:6px;
 	-webkit-border-radius:6px; 
 
@@ -282,7 +282,7 @@ input.color-picker {
 
 /* the input field */
 .range {
-	border:1px solid #aaa;
+	border:1px solid #84B0C7;
 	float:left;
 	font-size:16px;
 	margin:0 0 0 10px;
