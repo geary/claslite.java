@@ -68,6 +68,11 @@
 	function initMap() {
 		app.map = new S.Map( app.$mapwrap );
 		app.map.fitBounds( -26, -80, 5, -35 );
+		// HACK FOR V2 MAPS API:
+		setTimeout( function() {
+			app.map.fitBounds( -26, -80, 5, -35 );
+		}, 100 );
+		// END HACK
 		
 		app.map.geoclick({
 			form: '#location-search-form',
@@ -80,7 +85,7 @@
 		app.map.addLayer({
 			minZoom: 6,
 			maxZoom: 14,
-			tiles: 'http://claslite.geary.joyeurs.com/tiles/peru_redd_2007_mosaic_frac_tif/%z/%x/%y.png'
+			tiles: 'http://claslite.geary.joyeurs.com/tiles/peru_redd_2007_mosaic_frac_tif/{Z}/{X}/{Y}.png'
 		});
 	}
 	

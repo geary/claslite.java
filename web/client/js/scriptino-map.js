@@ -6,39 +6,107 @@
 (function( S, $ ) {
 	
 	var gm = google.maps, gme = gm.event;
+	if( ! gme ) {
+		var v2 = true;
+		gme = gm.Event;
+	}
 	
 	S.Map = function( $map ) {
+		var sm = this;
 		$map = $($map);
 		
-		var sm = this;
-		S.extend( sm, {
-			map: new gm.Map( $map[0], {
+		if( v2 ) {
+			if( ! GBrowserIsCompatible() ) return;
+			var map = sm.map = new GMap2( $map[0] );
+			//map.addMapType(G_PHYSICAL_MAP);
+			//map.setMapType(G_NORMAL_MAP);
+			map.enableContinuousZoom();
+			map.enableDoubleClickZoom();
+			//map.enableScrollWheelZoom();
+			map.addControl( new GLargeMapControl );
+			//map.addControl( new GLargeMapControl3D );
+			map.addControl( new GMapTypeControl );
+		}
+		else {
+			var map = sm.map = new gm.Map( $map[0], {
 				mapTypeId: google.maps.MapTypeId.ROADMAP
-			}),
-			
+			});
+		}
+		
+		S.extend( sm, {
 			addLayer: function( opt ) {
-				var layerMapType = new gm.ImageMapType({
-					minZoom: opt.minZoom,
-					maxZoom: opt.maxZoom,
-					tileSize: new gm.Size( 256, 256 ),
-					isPng: true,
-					getTileUrl: function( coord, zoom ) {
-						return opt.tiles
-							.replace( '%x', coord.x )
-							.replace( '%y', coord.y )
-							.replace( '%z', zoom );
-					}
-				});
-				sm.map.overlayMapTypes.insertAt( 0, layerMapType );
+				if( v2 ) {
+					
+					var tlo = new GTileLayerOverlay(
+						new GTileLayer(
+							new GCopyrightCollection(''), opt.minZoom, opt.maxZoom, {
+								tileUrlTemplate: opt.tiles,
+								isPng: true,
+								opacity: 1.0
+							}
+						)
+					);
+					
+					map.addOverlay( tlo );
+					
+					//var layer = new GTileLayer(
+					//	new GCopyrightCollection(''),
+					//	opt.minZoom, opt.maxZoom
+					//);
+					//var mercator = new GMercatorProjection( opt.maxZoom + 1 );
+					//layer.getTileUrl = function( tile, zoom ) {
+					//	if( zoom < opt.minZoom  ||  zoom > opt.maxZoom )
+					//		return "http://www.maptiler.org/img/none.png";
+					//	var ymax = 1 << zoom;
+					//	var y = ymax - tile.y - 1;
+					//	var tileBounds = new GLatLngBounds(
+					//		mercator.fromPixelToLatLng( new GPoint( (tile.x)*256, (tile.y+1)*256 ) , zoom ),
+					//		mercator.fromPixelToLatLng( new GPoint( (tile.x+1)*256, (tile.y)*256 ) , zoom )
+					//	);
+					//	//if (mapBounds.intersects(tileBounds)) {
+					//		return 'http://claslite.geary.joyeurs.com/tiles/peru_redd_2007_mosaic_frac_tif/' + zoom + '/' + tile.x + '/' + tile.y + '.png'
+					//	//} else {
+					//	//	return "http://www.maptiler.org/img/none.png";
+					//	//}
+					//}
+					//// IE 7-: support for PNG alpha channel
+					//// Unfortunately, the opacity for whole overlay is then not changeable, either or...
+					//layer.isPng = function() { return true;};
+					//layer.getOpacity = function() { return .5 /*opacity*/; }
+					//
+					//overlay = new GTileLayerOverlay( layer );
+					//map.addOverlay(overlay);
+					
+				}
+				else {
+					var layerMapType = new gm.ImageMapType({
+						minZoom: opt.minZoom,
+						maxZoom: opt.maxZoom,
+						tileSize: new gm.Size( 256, 256 ),
+						isPng: true,
+						getTileUrl: function( coord, zoom ) {
+							return opt.tiles
+								.replace( '{X}', coord.x )
+								.replace( '{Y}', coord.y )
+								.replace( '{Z}', zoom );
+						}
+					});
+					sm.map.overlayMapTypes.insertAt( 0, layerMapType );
+				}
 			},
 			
 			fitBounds: function( s, w, n, e ) {
-				sm.map.fitBounds(
-					new gm.LatLngBounds(
-						new gm.LatLng( s, w ),
-						new gm.LatLng( n, e )
-					)
+				var bounds = new gm.LatLngBounds(
+					new gm.LatLng( s, w ),
+					new gm.LatLng( n, e )
 				);
+				if( v2 ) {
+					var zoom = map.getBoundsZoomLevel( bounds );
+					map.setCenter( bounds.getCenter(), zoom || 4 );
+				}
+				else {
+					map.fitBounds( bounds );
+				}
 			},
 			
 			geoclick: function( opt ) {
@@ -47,8 +115,9 @@
 				sm.geocoder = sm.geocoder || new S.Geocoder;
 				
 				sm.clickCoder = sm.clickCoder  ||
-					gme.addListener( sm.map, 'click', function( event ) {
-						geocode({ location: event.latLng });
+					gme.addListener( sm.map, 'click', function( event, latlng ) {
+						if( ! v2 ) latlng = event.latLng;
+						geocode({ address: latlng.lat() + ',' + latlng.lng() });
 					});
 				
 				$form.submit( function( event ) {
@@ -70,7 +139,8 @@
 			},
 			
 			resize: function() {
-				gme.trigger( sm.map, 'resize' );
+				if( v2 ) map.checkResize();
+				else gme.trigger( map, 'resize' );
 			}
 		});
 		
@@ -101,14 +171,53 @@
 	
 	S.Geocoder = function() {
 		var sg = this;
-		S.extend( sg, {
+		if( v2 ) {
+			var frame;
 			
-			geocoder: new gm.Geocoder(),
-			
-			geocode: function( request, callback ) {
-				sg.geocoder.geocode( request, callback );
+			function loadFrame( callback ) {
+				S.Geocoder.ready = function( _frame ) {
+					callback( frame = _frame );
+				};
+				if( frame ) {
+					callback( frame );
+				}
+				else {
+					$('<iframe>').html( S(
+						'<html>',
+							'<head>',
+								'<script type="text/javascript">',
+									'function ready() { parent.Scriptino.Geocoder.ready(window); }',
+								'</script>',
+								'<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&callback=ready"></script>',
+							'</head>',
+							'<body>',
+							'</body>',
+						'</html>'
+					) ).appendTo('body');
+				}
 			}
-		});
+			
+			var geocoder = this;
+			var framecoder;
+			
+			S.extend( sg, {
+				geocode: function( request, callback ) {
+					loadFrame( function( frame ) {
+						framecoder = framecoder || new frame.google.maps.Geocoder;
+						framecoder.geocode( request, callback );
+					});
+				}
+			});
+		}
+		else {
+			var geocoder = new gm.Geocoder();
+			
+			S.extend( sg, {
+				geocode: function( request, callback ) {
+					geocoder.geocode( request, callback );
+				}
+			});
+		}
 	};
 	
 })( Scriptino, jQuery );
