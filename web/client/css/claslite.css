@@ -217,6 +217,27 @@ ul.tabs a.hover span {
 	float: right;
 }
 
+#location-results-list {
+}
+
+ul.geocode-list {
+}
+
+li.geocode-item {
+	border: 1px solid white;
+	margin: 1px;
+	padding: 2px;
+	cursor: pointer;
+}
+
+li.geocode-item.hover, li.geocode-item.active {
+	border: 1px solid #888;
+}
+
+li.geocode-item.active {
+	background-color: #DDD;
+}
+
 /* Color picker */
 
 div.color-picker-row {

@@ -126,10 +126,22 @@
 				
 				function geocode( request ) {
 					sm.geocoder.geocode( request, function( results, status ) {
-						var $ul = $('<ul>');
+						var $ul = $('<ul class="geocode-list">');
 						if( status == gm.GeocoderStatus.OK ) {
 							results.forEach( function( result ) {
-								var $li = $('<li>').text( result.formatted_address ).appendTo($ul);
+								var $li = $('<li class="geocode-item">')
+									.text( result.formatted_address )
+									.appendTo($ul)
+									.mouseenter( function( event ) {
+										$li.addClass( 'hover' );
+									})
+									.mouseleave( function( event ) {
+										$li.removeClass( 'hover' );
+									})
+									.click( function( event ) {
+										$ul.find('li.active').removeClass( 'active' );
+										$li.addClass( 'active' );
+									});
 							});
 						}
 						$list.html( $ul );
