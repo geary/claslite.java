@@ -16,6 +16,7 @@
 	<script type="text/javascript" src="js/scriptino-base.js"></script>
 	<script type="text/javascript" src="js/scriptino-tabs.js"></script>
 	<script type="text/javascript" src="js/scriptino-map.js"></script>
+	<script type="text/javascript" src="js/rangeinput.js"></script>
 	<script type="text/javascript" src="js/mColorPicker.js"></script>
 	<script type="text/javascript" src="js/claslite.js"></script>
 	
@@ -53,6 +54,7 @@
 					</div>
 					
 					<div id="forestcover-panel">
+						
 						<form class="color-pickers" id="forestcover-colors">
 							<div>
 								<input class="color-picker" data-hex="true" name="forest-color" id="forest-color" value="#123456">
@@ -69,7 +71,12 @@
 							<!--<br />-->
 							<!--<input type="submit" value="submit" />-->
 						</form>
-
+						
+						<div style="margin-top:16px;">
+							<label for="forestcover-opacity" class="slider-label">Opacity</label>
+							<input type="range" class="range" min="0" max="100" value="50" id="forestcover-opacity" />
+						</div>
+						
 					</div>
 					
 					<div id="forestchange-panel">

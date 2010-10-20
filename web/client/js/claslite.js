@@ -23,6 +23,7 @@
 	function initUI() {
 		initVars();
 		initTabs();
+		initRangeInputs();
 		initSizer();
 		resize();
 		initMap();
@@ -57,6 +58,10 @@
 		});
 		
 		app.tabs.select( 'location' );
+	}
+	
+	function initRangeInputs() {
+		$("input:range").rangeinput();
 	}
 	
 	function initMap() {
