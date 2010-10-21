@@ -102,6 +102,35 @@ a:hover {
 	margin-bottom: 8px;
 }
 
+#header-tagline {
+	font-size: 20px;
+	line-height: 22px;
+	font-weight: bold;
+	position: absolute;
+	left: 212px;
+	top: 9px;
+}
+
+#header-links {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	text-align: right;
+}
+
+#header-links a, #header-links a:visited {
+	color: #F9FDFA;
+}
+
+#site-links {
+	margin-bottom: 8px;
+}
+
+span.pipe {
+	padding: 0 6px;
+	color: #9EB08E;
+}
+
 /* Tabs */
 
 div.tabs {
