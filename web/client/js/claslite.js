@@ -10,6 +10,10 @@
 		sidebarWidth: 350
 	};
 	
+	var monthNames = [
+		'January', 'February', 'March', 'April', 'May', 'June',
+		'July', 'August', 'September', 'October', 'November', 'December'
+	];
 	S.extend( $.fn.mColorPicker.defaults, {
 		imageFolder: 'images/mColorPicker/'
 	});
@@ -24,6 +28,7 @@
 		initVars();
 		initTabs();
 		initRangeInputs();
+		initDateSelectors();
 		initSizer();
 		resize();
 		initMap();
@@ -63,6 +68,24 @@
 	
 	function initRangeInputs() {
 		$("input:range").rangeinput();
+	}
+	
+	function initDateSelectors() {
+		var options = [];
+		for( var year = 2000;  year <= 2010;  ++year ) {
+			for( var month = 1;  month <= 12;  ++month ) {
+				options.push(
+					'<option value="', year, '-', padDigits( month, 2 ), '">',
+						monthNames[ month - 1 ], ' ', year,
+					'</option>'
+				);
+			}
+		}
+		$('select.forestchange-date').html( options.join('') );
+	}
+	
+	function padDigits( value, digits ) {
+		return ( '' + ( value + 100000000 ) ).slice( -digits );
 	}
 	
 	function initMap() {

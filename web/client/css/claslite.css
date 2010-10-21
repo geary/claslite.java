@@ -343,6 +343,17 @@ input.color-picker {
 	-webkit-border-radius:5px; 		
 }
 
+/* Forest change */
+
+.date-panel {
+	float: left;
+	width: 150px;
+	text-align: center;
+}
+
+.date-panel select {
+	margin-top: 8px;
+}
 
 /* Map */
 
