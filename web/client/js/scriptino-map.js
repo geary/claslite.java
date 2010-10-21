@@ -155,6 +155,7 @@
 					gme.addListener( sm.map, 'click', function( event, latlng ) {
 						if( ! v2 ) latlng = event.latLng;
 						geocode({ address: latlng.lat() + ',' + latlng.lng() });
+						opt.onclick && opt.onclick();
 					});
 				
 				$form.submit( function( event ) {

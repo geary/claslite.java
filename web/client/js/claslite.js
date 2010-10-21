@@ -126,7 +126,8 @@
 			form: '#location-search-form',
 			input: '#location-search-input',
 			list: '#location-results-list',
-			click: function() {
+			onclick: function() {
+				app.tabs.select( 'location' );
 			}
 		});
 		
