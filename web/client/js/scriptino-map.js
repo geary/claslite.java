@@ -33,6 +33,44 @@
 		}
 		
 		S.extend( sm, {
+			
+			addBoundsPoly: function( bounds ) {
+				var sw = bounds.getSouthWest(), ne = bounds.getNorthEast();
+				var s = sw.lat(), w = sw.lng(), n = ne.lat(), e = ne.lng();
+				var path = [
+					new gm.LatLng( n, w ),
+					new gm.LatLng( n, e ),
+					new gm.LatLng( s, e ),
+					new gm.LatLng( s, w ),
+					new gm.LatLng( n, w )
+				];
+				if( v2 ) {
+					var poly = new gm.Polygon( path, '#000000', 5, .7, '#000000', .1, {
+						clickable: false
+					});
+					try {
+						// This throws an exception!
+						sm.map.addOverlay( poly );
+					}
+					catch( e ) {
+						debugger;
+					}
+				}
+				else {
+					var poly = new gm.Polygon({
+						map: map,
+						clickable: false,
+						fillColor: '#000000',
+						fillOpacity: .1,
+						paths: path,
+						strokeColor: '#000000',
+						strokeOpacity: .7,
+						strokeWeight: 2
+					});
+				}
+				return poly;
+			},
+			
 			addLayer: function( opt ) {
 				if( v2 ) {
 					
@@ -126,27 +164,43 @@
 				
 				function geocode( request ) {
 					sm.geocoder.geocode( request, function( results, status ) {
+						function hilite( $li, bounds ) {
+							sm.hoverPoly && sm.removePoly( sm.hoverPoly );
+							delete sm.hoverPoly;
+							$ul.find('li.hover').removeClass( 'hover' );
+							if( ! $li ) return;
+							$li.addClass( 'hover' );
+							sm.hoverPoly = sm.addBoundsPoly( bounds );
+						}
 						var $ul = $('<ul class="geocode-list">');
 						if( status == gm.GeocoderStatus.OK ) {
-							results.forEach( function( result ) {
+							results.forEach( function( result, i ) {
+								if( ! result.geometry ) return;
+								var viewport = result.geometry.viewport, bounds = result.geometry.bounds || viewport;
 								var $li = $('<li class="geocode-item">')
 									.text( result.formatted_address )
 									.appendTo($ul)
 									.mouseenter( function( event ) {
-										$li.addClass( 'hover' );
+										hilite( $li, bounds );
 									})
 									.mouseleave( function( event ) {
-										$li.removeClass( 'hover' );
+										hilite();
 									})
 									.click( function( event ) {
 										$ul.find('li.active').removeClass( 'active' );
 										$li.addClass( 'active' );
 									});
+								if( i == 0 ) hilite( $li, bounds );
 							});
 						}
 						$list.html( $ul );
 					});
 				}
+			},
+			
+			removePoly: function( poly ) {
+				if( v2 ) sm.map.removeOverlay( poly );
+				else poly.setMap( null );
 			},
 			
 			resize: function() {
