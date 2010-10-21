@@ -247,6 +247,7 @@ ul.tabs a.hover span {
 }
 
 #location-results-list {
+	width: 330px;
 }
 
 ul.geocode-list {
