@@ -29,6 +29,7 @@
 		initTabs();
 		initRangeInputs();
 		initDateSelectors();
+		initLegends();
 		initSizer();
 		resize();
 		initMap();
@@ -86,6 +87,30 @@
 	
 	function padDigits( value, digits ) {
 		return ( '' + ( value + 100000000 ) ).slice( -digits );
+	}
+	
+	function initLegends() {
+		addLegend( '#deforestation-legend' );
+		addLegend( '#disturbance-legend' );
+	}
+	
+	function addLegend( legend ) {
+		var colors = [ '#FF0000', '#FF4400', '#FF8800', '#FFCC00', '#FFFF00' ];
+		$.S(
+			'<div class="legend-colors">',
+				colors.map( function( color, i ) {
+					return S(
+						'<div class="legend-color" style="background-color:', color, '">',
+						'</div>',
+						'<div class="legend-label">',
+							i == 0 ? 'Recent' : i == colors.length - 1 ? 'Oldest' : '',
+						'</div>',
+						'<div class="clear-both">',
+						'</div>'
+					)
+				}).join(''),
+			'</div>'
+		).appendTo( legend );
 	}
 	
 	function initMap() {

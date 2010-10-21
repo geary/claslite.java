@@ -91,6 +91,11 @@ a:hover {
 	text-decoration: underline;
 }
 
+.section {
+	margin: 16px 0 12px 0;
+	font-weight: bold;
+}
+
 /* Header */
 
 #header {
@@ -280,6 +285,25 @@ input.color-picker {
 
 #mColorPickerInput {
 	font-size:13px !important;
+}
+
+/* Color legend */
+
+.legend-colors {
+	margin: 8px 0 12px 30px;
+}
+
+.legend-color {
+	width: 14px;
+	height: 14px;
+	float: left;
+}
+
+.legend-label {
+	margin-left:4px;
+	font-size: 14px;
+	line-height: 14px;
+	float: left;
 }
 
 /* Slider */
