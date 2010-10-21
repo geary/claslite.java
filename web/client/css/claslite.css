@@ -290,7 +290,7 @@ input.color-picker {
 
 /* slider root element */
 .slider { 
-	background-color:D5E1E8;
+	background-color:#D5E1E8;
 	height:8px; 
 	position:relative; 
 	cursor:pointer;
