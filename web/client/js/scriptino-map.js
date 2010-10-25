@@ -72,19 +72,24 @@
 			},
 			
 			addLayer: function( opt ) {
+				
+				function getTileUrl( tile, zoom ) {
+					return opt.tiles
+						.replace( '{X}', tile.x )
+						.replace( '{Y}', ( 1 << zoom ) - tile.y - 1 )
+						.replace( '{Z}', zoom );
+				}
+				
 				if( v2 ) {
-					
-					var tlo = new GTileLayerOverlay(
-						new GTileLayer(
-							new GCopyrightCollection(''), opt.minZoom, opt.maxZoom, {
-								tileUrlTemplate: opt.tiles,
-								isPng: true,
-								opacity: 1.0
-							}
-						)
-					);
-					
-					map.addOverlay( tlo );
+					var layer = S.extend( new GTileLayer(
+						new GCopyrightCollection(''), opt.minZoom, opt.maxZoom
+					), {
+						getTileUrl: getTileUrl,
+						isPng: function() { return true; },
+						opacity: function() { return 1.0; }
+					});
+					var overlay = new GTileLayerOverlay( layer);
+					map.addOverlay( overlay );
 					
 					//var layer = new GTileLayer(
 					//	new GCopyrightCollection(''),
@@ -121,12 +126,7 @@
 						maxZoom: opt.maxZoom,
 						tileSize: new gm.Size( 256, 256 ),
 						isPng: true,
-						getTileUrl: function( coord, zoom ) {
-							return opt.tiles
-								.replace( '{X}', coord.x )
-								.replace( '{Y}', coord.y )
-								.replace( '{Z}', zoom );
-						}
+						getTileUrl: getTileUrl
 					});
 					sm.map.overlayMapTypes.insertAt( 0, layerMapType );
 				}
