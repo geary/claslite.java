@@ -114,11 +114,13 @@
 	}
 	
 	function initMap() {
+		//var bounds = [ -26, -80, 5, -35 ];
+		var bounds = [ -13.186159, -70.962916, -10.960249, -68.705582 ];
 		app.map = new S.Map( app.$mapwrap );
-		app.map.fitBounds( -26, -80, 5, -35 );
+		app.map.fitBounds.apply( app.map, bounds );
 		// HACK FOR V2 MAPS API:
 		setTimeout( function() {
-			app.map.fitBounds( -26, -80, 5, -35 );
+			app.map.fitBounds.apply( app.map, bounds );
 		}, 100 );
 		// END HACK
 		
