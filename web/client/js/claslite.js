@@ -134,7 +134,8 @@
 		app.map.addLayer({
 			minZoom: 6,
 			maxZoom: 14,
-			tiles: 'http://claslite.geary.joyeurs.com/tiles/peru_redd_2007_mosaic_frac_tif/{Z}/{X}/{Y}.png'
+			//tiles: 'http://claslite.geary.joyeurs.com/tiles/peru_redd_2007_mosaic_frac_tif/{Z}/{X}/{Y}.png'
+			tiles: 'http://claslite.geary.joyeurs.com/tiles/peru_redd_2009_peru_redd_forestcover_geotiff_rgb/{Z}/{X}/{Y}.png'
 		});
 	}
 	
