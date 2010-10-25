@@ -10,6 +10,37 @@
 		var v2 = true;
 		gme = gm.Event;
 	}
+	else {
+		var TileMapType = function( opt ) {
+			var tiles = {};
+			var opacity = opt.opacity == null ? 1 : opt.opacity;
+			var mt = S.extend( this, {
+				tileSize: opt.tileSize,
+				minZoom: opt.minZoom,
+				maxZoom: opt.maxZoom,
+				getTile: function( coord, zoom, doc ) {
+					var url = opt.getTileUrl( coord, zoom );
+					var id = url.replace( /\W+/g, '-' );
+					var tile = doc.createElement('tile');
+					tile.id = id;
+					tile.style.width = opt.tileSize.width + 'px';
+					tile.style.height = opt.tileSize.height + 'px';
+					tile.style.backgroundImage = 'url(' + url + ')';
+					tile.style.opacity = opacity;
+					tiles[id] = tile;
+					return tile;
+				},
+				releaseTile: function( tile ) {
+					delete tiles[ tile.id ];
+				},
+				setOpacity: function( _opacity ) {
+					opacity = _opacity;
+					for( var id in tiles )
+						tiles[id].style.opacity = opacity;
+				}
+			});
+		};
+	}
 	
 	S.Map = function( $map ) {
 		var sm = this;
@@ -72,31 +103,40 @@
 			},
 			
 			addLayer: function( opt ) {
+				var layer = {
+					opacity: opt.opacity == null ? 1 : opt.opacity
+				};
 				
-				function getTileUrl( tile, zoom ) {
+				function getTileUrl( coord, zoom ) {
 					return opt.tiles
-						.replace( '{X}', tile.x )
-						.replace( '{Y}', ( 1 << zoom ) - tile.y - 1 )
+						.replace( '{X}', coord.x )
+						.replace( '{Y}', ( 1 << zoom ) - coord.y - 1 )
 						.replace( '{Z}', zoom );
 				}
 				
 				if( v2 ) {
-					var layer = S.extend( new GTileLayer(
+					var tileLayer = S.extend( new GTileLayer(
 						new GCopyrightCollection(''), opt.minZoom, opt.maxZoom
 					), {
 						getTileUrl: getTileUrl,
 						isPng: function() { return true; },
-						opacity: function() { return 1.0; }
+						getOpacity: function() { return layer.opacity; }
 					});
-					var overlay = new GTileLayerOverlay( layer);
-					map.addOverlay( overlay );
+					var tileLayerOverlay = new GTileLayerOverlay( tileLayer);
+					map.addOverlay( tileLayerOverlay );
 					
-					//var layer = new GTileLayer(
+					layer.setOpacity = function( opacity ) {
+						layer.opacity = opacity;
+						map.removeOverlay( tileLayerOverlay );
+						map.addOverlay( tileLayerOverlay );
+					};
+					
+					//var tileLayer = new GTileLayer(
 					//	new GCopyrightCollection(''),
 					//	opt.minZoom, opt.maxZoom
 					//);
 					//var mercator = new GMercatorProjection( opt.maxZoom + 1 );
-					//layer.getTileUrl = function( tile, zoom ) {
+					//tileLayer.getTileUrl = function( tile, zoom ) {
 					//	if( zoom < opt.minZoom  ||  zoom > opt.maxZoom )
 					//		return "http://www.maptiler.org/img/none.png";
 					//	var ymax = 1 << zoom;
@@ -113,23 +153,30 @@
 					//}
 					//// IE 7-: support for PNG alpha channel
 					//// Unfortunately, the opacity for whole overlay is then not changeable, either or...
-					//layer.isPng = function() { return true;};
-					//layer.getOpacity = function() { return .5 /*opacity*/; }
+					//tileLayer.isPng = function() { return true;};
+					//tileLayer.getOpacity = function() { return .5 /*opacity*/; }
 					//
-					//overlay = new GTileLayerOverlay( layer );
+					//overlay = new GTileLayerOverlay( tileLayer );
 					//map.addOverlay(overlay);
 					
 				}
 				else {
-					var layerMapType = new gm.ImageMapType({
+					var mapType = new TileMapType({
 						minZoom: opt.minZoom,
 						maxZoom: opt.maxZoom,
 						tileSize: new gm.Size( 256, 256 ),
 						isPng: true,
-						getTileUrl: getTileUrl
+						getTileUrl: getTileUrl,
+						opacity: opt.opacity
 					});
-					sm.map.overlayMapTypes.insertAt( 0, layerMapType );
+					sm.map.overlayMapTypes.insertAt( 0, mapType );
+					
+					layer.setOpacity = function( opacity ) {
+						mapType.setOpacity( opacity );
+					};
 				}
+				
+				return layer;
 			},
 			
 			fitBounds: function( s, w, n, e ) {
