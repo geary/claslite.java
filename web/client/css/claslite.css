@@ -64,11 +64,14 @@ html, body {
 	margin: 0px;
 	padding: 0px;
 	position: absolute;
-	font-size: 16px;
 	font-family: Arial,sans-serif;
 	background: #FFF;
 	color: #000;
 	overflow: hidden;
+}
+
+html, body, button, input, select, td {
+	font-size: 18px;
 }
 
 .clear-left {
@@ -96,11 +99,33 @@ a:hover {
 	font-weight: bold;
 }
 
+form.input-form {
+	width: 310px;
+	border:1px solid #84B0C7;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+
+div.button-row {
+	text-align: right;
+}
+
+button.cancel {
+	font-size:70%;
+	margin-right: 10px;
+}
+
+button.submit {
+	font-weight: bold;
+	padding: 0 4px 2px 4px;
+}
+
 /* Header */
 
 #header {
 	width: 100%;
 	height: 60px;
+	font-size: 16px;
 	color: #F9FDFA;
 	background: url(../images/claslite-logo.png) no-repeat #26432B;
 	background-position: 3px 3px;
@@ -160,6 +185,7 @@ ul.tabs a {
 	float: left;
 	outline: none;
 	background: url("../images/tabs.gif") no-repeat left top;
+	font-size: 16px;
 	margin: 0 6px 0 0;
 	padding: 0 0 0 9px;
 	border-bottom: 1px solid #84B0C7;
@@ -232,7 +258,7 @@ ul.tabs a.hover span {
 #location-search-form {
 	width: 330px;
 	padding-bottom: 6px;
-	border-bottom: 1px solid #888;
+	border-bottom: 1px solid #84B0C7;
 	margin-bottom: 6px;
 }
 
@@ -266,7 +292,7 @@ li.geocode-item {
 }
 
 li.geocode-item.hover, li.geocode-item.active {
-	border: 1px solid #888;
+	border: 1px solid #84B0C7;
 }
 
 li.geocode-item.active {
@@ -280,7 +306,9 @@ div.color-picker-row {
 }
 
 input.color-picker {
+	font-size: 15px;
 	width:70px;
+	padding: 2px;
 }
 
 #mColorPickerInput {
@@ -307,6 +335,10 @@ input.color-picker {
 }
 
 /* Slider */
+
+div.slider-panel {
+	margin-top: 16px;
+}
 
 .slider-label {
 	padding: 4px 8px 0 0;

@@ -89,7 +89,7 @@
 							<input id="location-search-input" />
 							<div id="location-search-buttons">
 								<a href="#" id="show-search-options">Advanced search&#8230;</a>
-								<button type="submit" id="location-search-submit">Search</button>
+								<button class="submit" type="submit" id="location-search-submit">Search</button>
 								<div class="clear-right"></div>
 							</div>
 						</form>
@@ -99,16 +99,14 @@
 					
 					<div id="forestcover-panel">
 						
-						<div class="date-panel">
-							<b>Select Date</b>
-							<br />
-							<select class="date-select" id="forestcover-date">
-							</select>
-						</div>
-						<div class="clear-both" style="margin-bottom:16px;">
-						</div>
-						
-						<form class="color-pickers" id="forestcover-colors">
+						<form class="input-form" id="forestcover-input-form">
+							
+							<div style="margin-bottom:16px;">
+								<b>Select Date:</b>
+								<select class="date-select" id="forestcover-date">
+								</select>
+							</div>
+							
 							<div class="color-picker-row">
 								<input class="color-picker" data-hex="true" name="forest-color" id="forest-color" value="#69b24f">
 								<label for="forest-color">Forest</label>
@@ -121,11 +119,15 @@
 								<input class="color-picker" data-hex="true" name="nodata-color" id="nodata-color" value="#0c0c0d">
 								<label for="nodata-color">No data</label>
 							</div>
-							<!--<br />-->
-							<!--<input type="submit" value="submit" />-->
+							
+							<div class="button-row">
+								<!--<button class="cancel">Cancel</button>-->
+								<button class="submit" type="submit">Apply</button>
+							</div>
+							
 						</form>
 						
-						<div style="margin-top:16px;">
+						<div class="slider-panel">
 							<label for="forestcover-opacity" class="slider-label">Opacity</label>
 							<input type="range" class="range" min="0" max="100" value="50" id="forestcover-opacity" />
 						</div>
@@ -134,43 +136,57 @@
 					
 					<div id="forestchange-panel">
 						
-						<div class="date-panel">
-							<b>Start Date</b>
-							<br />
-							<select class="date-select" id="forestchange-date-start">
-							</select>
-						</div>
+						<form class="input-form" id="forestchange-input-form">
+							
+							<div class="date-panel">
+								<b>Start Date</b>
+								<br />
+								<select class="date-select" id="forestchange-date-start">
+								</select>
+							</div>
+							
+							<div class="date-panel">
+								<b>End Date</b>
+								<br />
+								<select class="date-select" id="forestchange-date-end">
+								</select>
+							</div>
+							
+							<div class="clear-both">
+							</div>
+							
+							<div class="section">
+								Layers
+							</div>
+							
+							<div id="deforestation-layer">
+								<input type="radio" name="forestchange-layer-radio" id="deforestation-radio" checked="checked" />
+								<label for="deforestation-radio">Deforestation</label>
+								<div id="deforestation-legend"></div>
+							</div>
+							
+							<div id="disturbance-layer" style="margin-top:8px;">
+								<input type="radio" name="forestchange-layer-radio" id="disturbance-radio" />
+								<label for="disturbance-radio">Forest Disturbance</label>
+								<div id="disturbance-legend"></div>
+							</div>
+							
+							<div class="button-row">
+								<!--<button class="cancel">Cancel</button>-->
+								<button class="submit" type="submit">Apply</button>
+							</div>
+							
+						</form>
 						
-						<div class="date-panel">
-							<b>End Date</b>
-							<br />
-							<select class="date-select" id="forestchange-date-end">
-							</select>
-						</div>
-						
-						<div class="clear-both">
-						</div>
-						
-						<div class="section">
-							Layers
-						</div>
-						
-						<div id="deforestation-layer">
-							<input type="checkbox" id="deforestation-checkbox" />
-							<label for="deforestation-checkbox">Deforestation</label>
-							<div id="deforestation-legend"></div>
-						</div>
-						
-						<div id="disturbance-layer">
-							<input type="checkbox" id="disturbance-checkbox" />
-							<label for="disturbance-checkbox">Forest Disturbance</label>
-							<div id="disturbance-legend"></div>
+						<div class="slider-panel">
+							<label for="forestchange-opacity" class="slider-label">Opacity</label>
+							<input type="range" class="range" min="0" max="100" value="50" id="forestchange-opacity" />
 						</div>
 						
 					</div>
 					
 					<div id="help-panel">
-						Help is on the way
+						<object width="330" height="280"><param name="movie" value="http://www.youtube.com/v/TU7JjJJZi1Q?fs=1&amp;hl=en_US&amp;rel=0&amp;autoplay=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/TU7JjJJZi1Q?fs=1&amp;hl=en_US&amp;rel=0&amp;autoplay=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="330" height="280"></embed></object>
 					</div>
 					
 				</div>
