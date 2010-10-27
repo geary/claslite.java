@@ -48,6 +48,7 @@
 		initTabs();
 		initRangeInputs();
 		initDateSelects();
+		initColorPickers();
 		initLegends();
 		initSizer();
 		resize();
@@ -157,6 +158,12 @@
 	
 	function padDigits( value, digits ) {
 		return ( '' + ( value + 100000000 ) ).slice( -digits );
+	}
+	
+	function initColorPickers() {
+		$('input.mColorPickerInput').click( function( event ) {
+			$(this).next().trigger( 'click', event );
+		});
 	}
 	
 	function initLegends() {
