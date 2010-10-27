@@ -125,6 +125,10 @@
 					var tileLayerOverlay = new GTileLayerOverlay( tileLayer);
 					map.addOverlay( tileLayerOverlay );
 					
+					layer.remove = function() {
+						map.removeOverlay( tileLayerOverlay );
+					};
+					
 					layer.setOpacity = function( opacity ) {
 						layer.opacity = opacity;
 						map.removeOverlay( tileLayerOverlay );
@@ -170,6 +174,10 @@
 						opacity: opt.opacity
 					});
 					sm.map.overlayMapTypes.insertAt( 0, mapType );
+					
+					layer.remove = function() {
+						sm.map.overlayMapTypes.removeAt( 0 );
+					};
 					
 					layer.setOpacity = function( opacity ) {
 						mapType.setOpacity( opacity );

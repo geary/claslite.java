@@ -66,10 +66,39 @@
 			$forestCoverDate: $('#forestcover-date'),
 			$forestChangeStart: $('#forestchange-date-start'),
 			$forestChangeEnd: $('#forestchange-date-end'),
+			$deforestationRadio: $('#deforestation-radio'),
+			$disturbanceRadio: $('#disturbance-radio'),
 			$mapwrap: $('#mapwrap'),
 			_: null
 		};
 	}
+	
+	var tileBase = 'http://claslite.geary.joyeurs.com/tiles/';
+	var activateTab = {
+		location: function() {
+			removeLayer();
+		},
+		forestcover: function() {
+			addLayer( S(
+				'forestcover/peru_redd_',
+				app.$forestCoverDate.val(),
+				'_forestcover_geotiff_rgb/'
+			) );
+		},
+		forestchange: function() {
+			addLayer( S(
+				'forestchange/',
+				app.$forestChangeStart.val().slice(-2),
+				'_',
+				app.$forestChangeEnd.val().slice(-2),
+				'_',
+				app.$deforestationRadio.is(':checked') ? 'deforestation' : 'disturbance',
+				'/'
+			) );
+		},
+		help: function() {
+		}
+	};
 	
 	function initTabs() {
 		app.tabs = S.Tabs({
@@ -82,7 +111,8 @@
 				help: 'Help'
 			},
 			click: function( id ) {
-				//$('#sidebar').html( this.tabs[id] );
+				var activate = activateTab[id];
+				activate && activate();
 			}
 		});
 		
@@ -146,6 +176,21 @@
 		).appendTo( legend );
 	}
 	
+	function addLayer( path ) {
+		removeLayer();
+		app.layer = app.map.addLayer({
+			minZoom: 6,
+			maxZoom: 14,
+			opacity: $('#forestcover-opacity').data('rangeinput').getValue() / 100,
+			tiles: tileBase + path + '{Z}/{X}/{Y}.png'
+		});
+	}
+	
+	function removeLayer() {
+		app.layer && app.layer.remove();
+		delete app.layer;
+	}
+	
 	function initMap() {
 		//var bounds = [ -26, -80, 5, -35 ];
 		var bounds = [ -13.186159, -70.962916, -10.960249, -68.705582 ];
@@ -166,17 +211,8 @@
 			}
 		});
 		
-		app.forestcoverLayer = 
-			app.map.addLayer({
-				minZoom: 6,
-				maxZoom: 14,
-				opacity: $('#forestcover-opacity').data('rangeinput').getValue() / 100,
-				//tiles: 'http://claslite.geary.joyeurs.com/tiles/peru_redd_2007_mosaic_frac_tif/{Z}/{X}/{Y}.png'
-				tiles: 'http://claslite.geary.joyeurs.com/tiles/peru_redd_2009_peru_redd_forestcover_geotiff_rgb/{Z}/{X}/{Y}.png'
-			});
-			
-		$('#forestcover-opacity').bind( 'onSlide change', function( event, value ) {
-			app.forestcoverLayer.setOpacity( value / 100 );
+		$('input.layer-slider').bind( 'onSlide change', function( event, value ) {
+			app.layer && app.layer.setOpacity( value / 100 );
 		});
 	}
 	
