@@ -306,9 +306,13 @@ div.color-picker-row {
 }
 
 input.color-picker {
-	font-size: 15px;
-	width:70px;
-	padding: 2px;
+	font-size: 1px;
+	width:30px;
+	height:24px;
+	/*padding: 2px;*/
+	margin-right: 2px;
+	color: transparent !important;
+	cursor: pointer;
 }
 
 #mColorPickerInput {
