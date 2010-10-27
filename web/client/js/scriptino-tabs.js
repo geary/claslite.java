@@ -6,6 +6,9 @@
 (function( S, $ ) {
 	
 	S.Tabs = function( a ) {
+		var tabs = {
+			select: select
+		};
 		var selectedClass = a.selectedClass || 'selected';
 		var items = [];
 		for( var id in a.tabs ) items.push( S(
@@ -31,15 +34,14 @@
 			.appendTo( a.parent );
 		$('<div style="clear:left;">').appendTo( a.parent );  // must be a better way
 		function select( id ) {
+			tabs.selected = id;
 			$list.find('li').removeClass(selectedClass);
 			$('#'+id).addClass(selectedClass);
 			a.click && a.click( id );
 			$(a.panels).children().hide();
 			$('#'+id+'-panel').show();
 		}
-		return {
-			select: select
-		};
+		return tabs;
 	};
 	
 })( Scriptino, jQuery );

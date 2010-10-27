@@ -101,7 +101,7 @@
 	};
 	
 	function initTabs() {
-		app.tabs = S.Tabs({
+		app.tabOpts = {
 			parent: '#tabs',
 			panels: '#sidebar',
 			tabs: {
@@ -114,6 +114,13 @@
 				var activate = activateTab[id];
 				activate && activate();
 			}
+		};
+		app.tabs = S.Tabs( app.tabOpts );
+		
+		$('form.input-form').submit( function( event ) {
+			event.preventDefault();
+			// TODO: this could be cleaner
+			app.tabOpts.click( app.tabs.selected );
 		});
 		
 		app.tabs.select( 'location' );
