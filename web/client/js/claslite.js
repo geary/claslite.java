@@ -10,10 +10,6 @@
 		sidebarWidth: 350
 	};
 	
-	var monthNames = [
-		'January', 'February', 'March', 'April', 'May', 'June',
-		'July', 'August', 'September', 'October', 'November', 'December'
-	];
 	S.extend( $.fn.mColorPicker.defaults, {
 		imageFolder: 'images/mColorPicker/'
 	});
@@ -22,13 +18,36 @@
 		showLogo: false
 	});
 
+	//var monthNames = [
+	//	'January', 'February', 'March', 'April', 'May', 'June',
+	//	'July', 'August', 'September', 'October', 'November', 'December'
+	//];
+	
+	$.fn.dateSelect = function( years, initial, changed ) {
+		return this
+			.html( years.map( function( year ) {
+				return S(
+					//'<option value="', year, '-', padDigits( month, 2 ), '">',
+					//	monthNames[ month - 1 ], ' ', year,
+					//'</option>'
+					'<option value="', year, '">',
+						year,
+					'</option>'
+				);
+			}).join('') )
+			.val( initial )
+			.bind( 'change keyup', function( event ) {
+				changed && changed.apply( this, arguments );
+			});
+	}
+	
 	$().ready( initUI );
 	
 	function initUI() {
 		initVars();
 		initTabs();
 		initRangeInputs();
-		initDateSelectors();
+		initDateSelects();
 		initLegends();
 		initSizer();
 		resize();
@@ -44,6 +63,9 @@
 			$tabs: $('#tabs'),
 			$sidebarOuter: $('#sidebar-outer'),
 			$sidebar: $('#sidebar'),
+			$forestCoverDate: $('#forestcover-date'),
+			$forestChangeStart: $('#forestchange-date-start'),
+			$forestChangeEnd: $('#forestchange-date-end'),
 			$mapwrap: $('#mapwrap'),
 			_: null
 		};
@@ -71,18 +93,29 @@
 		$("input:range").rangeinput();
 	}
 	
-	function initDateSelectors() {
-		var options = [];
-		for( var year = 2000;  year <= 2010;  ++year ) {
-			for( var month = 1;  month <= 12;  ++month ) {
-				options.push(
-					'<option value="', year, '-', padDigits( month, 2 ), '">',
-						monthNames[ month - 1 ], ' ', year,
-					'</option>'
-				);
-			}
-		}
-		$('select.forestchange-date').html( options.join('') );
+	function initDateSelects() {
+		initForestCoverDateSelect();
+		initForestChangeDateSelect();
+	}
+	
+	function initForestCoverDateSelect() {
+		app.$forestCoverDate
+			.dateSelect( [ 2007, 2008, 2009 ], 2009, function( event ) {
+			});
+	}
+	
+	function initForestChangeDateSelect() {
+		app.$forestChangeStart
+			.dateSelect( [ 2007, 2008 ], 2007, function( event ) {
+				if( +this.value >= +app.$forestChangeEnd.val() )
+					app.$forestChangeEnd.val( +this.value + 1 );
+			});
+		
+		app.$forestChangeEnd
+			.dateSelect( [ 2008, 2009 ], 2009, function( event ) {
+				if( +this.value <= +app.$forestChangeStart.val() )
+					app.$forestChangeStart.val( +this.value - 1 );
+			});
 	}
 	
 	function padDigits( value, digits ) {
