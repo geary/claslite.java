@@ -109,6 +109,7 @@
 				location: 'Location',
 				forestcover: 'Forest Cover',
 				forestchange: 'Forest Change',
+				statistics: 'Statistics',
 				help: 'Help'
 			},
 			click: function( id ) {
