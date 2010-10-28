@@ -74,6 +74,14 @@ html, body, button, input, select, td {
 	font-size: 18px;
 }
 
+.float-left {
+	float: left;
+}
+
+.float-right {
+	float: right;
+}
+
 .clear-left {
 	clear: left;
 }
@@ -117,7 +125,10 @@ button.cancel {
 
 button.submit {
 	font-weight: bold;
-	padding: 0 4px 2px 4px;
+}
+
+button.view-button {
+	margin: 1px 0 0 0;
 }
 
 /* Header */

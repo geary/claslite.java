@@ -126,10 +126,19 @@
 						
 						<form class="input-form" id="forestcover-input-form">
 							
+							<div class="float-right">
+								<button class="submit view-button" type="submit" id="view-forestcover">View</button>
+							</div>
+							
 							<div style="margin-bottom:16px;">
-								<b>Year:</b>
+								<label for="forestchange-date-start">
+									<b>Years:</b>
+								</label>
 								<select class="date-select" id="forestcover-date">
 								</select>
+							</div>
+							
+							<div class="clear-right">
 							</div>
 							
 							<div class="color-picker-row">
@@ -143,11 +152,6 @@
 							<div class="color-picker-row">
 								<input class="color-picker" data-hex="true" name="nodata-color" id="nodata-color" value="#000000">
 								<label for="nodata-color">No data</label>
-							</div>
-							
-							<div class="button-row">
-								<!--<button class="cancel">Cancel</button>-->
-								<button class="submit view-button" type="submit" id="view-forestcover">View</button>
 							</div>
 							
 						</form>
@@ -167,19 +171,27 @@
 						
 						<form class="input-form" id="forestchange-input-form">
 							
+							<div class="float-right">
+								<button class="submit view-button" type="submit" id="view-forestchange">View</button>
+							</div>
+							
 							<div>
 								
-								<b>From:</b>
+								<label for="forestchange-date-start">
+									<b>Years:</b>
+								</label>
 								<select class="date-select" id="forestchange-date-start">
 								</select>
-								&nbsp;
-								<b>To:</b>
+								
+								<label for="forestchange-date-end" style="xmargin-left:4px;">
+									<b>&ndash;</b>
+								</label>
 								<select class="date-select" id="forestchange-date-end">
 								</select>
 								
 							</div>
 							
-							<div class="clear-both">
+							<div class="clear-right">
 							</div>
 							
 							<div class="section">
@@ -198,9 +210,9 @@
 								<div id="disturbance-legend"></div>
 							</div>
 							
-							<div class="button-row">
-								<!--<button class="cancel">Cancel</button>-->
-								<button class="submit view-button" type="submit" id="view-forestchange">View</button>
+							<div id="both-layer">
+								<input type="radio" name="forestchange-layer-radio" id="both-radio" />
+								<label for="both-radio">Both</label>
 							</div>
 							
 						</form>
