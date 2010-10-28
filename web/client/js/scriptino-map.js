@@ -59,7 +59,8 @@
 		}
 		else {
 			var map = sm.map = new gm.Map( $map[0], {
-				mapTypeId: google.maps.MapTypeId.ROADMAP
+				mapTypeId: google.maps.MapTypeId.ROADMAP,
+				streetViewControl: false
 			});
 		}
 		
