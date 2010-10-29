@@ -131,6 +131,14 @@ button.view-button {
 	margin: 1px 0 0 0;
 }
 
+img.toggle-expand {
+	border: 0;
+	width: 16px;
+	height: 16px;
+	margin-right: 4px;
+	cursor: pointer;
+}
+
 /* Header */
 
 #header {
