@@ -202,34 +202,41 @@
 				}
 			},
 			
-			geoclick: function( opt ) {
+			Geoclick: function( opt ) {
+				var geoclick = this;
+				geoclick.enabled = true;
+				
 				var $form = $(opt.form), $input = $(opt.input), $list = $('<div>');
 				$(opt.list).html( $list );
 				sm.geocoder = sm.geocoder || new S.Geocoder;
 				
 				sm.clickCoder = sm.clickCoder  ||
 					gme.addListener( sm.map, 'click', function( event, latlng ) {
+						if( ! geoclick.enabled ) return;
 						if( ! v2 ) latlng = event.latLng;
 						geocode({ address: latlng.lat() + ',' + latlng.lng() });
 						opt.onclick && opt.onclick();
 					});
 				
 				$form.submit( function( event ) {
+					if( ! geoclick.enabled ) return;
 					event.preventDefault();
 					geocode({ address: $input.val() });
 				});
 				
+				var $ul;
+				function hilite( $li, bounds ) {
+					sm.hoverPoly && sm.removePoly( sm.hoverPoly );
+					delete sm.hoverPoly;
+					$ul.find('li.hover').removeClass( 'hover' );
+					if( ! $li ) return;
+					$li.addClass( 'hover' );
+					sm.hoverPoly = sm.addBoundsPoly( bounds );
+				}
+				
 				function geocode( request ) {
 					sm.geocoder.geocode( request, function( results, status ) {
-						function hilite( $li, bounds ) {
-							sm.hoverPoly && sm.removePoly( sm.hoverPoly );
-							delete sm.hoverPoly;
-							$ul.find('li.hover').removeClass( 'hover' );
-							if( ! $li ) return;
-							$li.addClass( 'hover' );
-							sm.hoverPoly = sm.addBoundsPoly( bounds );
-						}
-						var $ul = $('<ul class="geocode-list">');
+						$ul = $('<ul class="geocode-list">');
 						if( status == gm.GeocoderStatus.OK ) {
 							results.forEach( function( result, i ) {
 								if( ! result.geometry ) return;
@@ -253,6 +260,15 @@
 						$list.html( $ul );
 					});
 				}
+				
+				geoclick.enable = function() {
+					geoclick.enabled = true;
+				};
+				
+				geoclick.disable = function() {
+					geoclick.enabled = false;
+					hilite();
+				};
 			},
 			
 			removePoly: function( poly ) {

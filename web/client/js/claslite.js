@@ -77,9 +77,11 @@
 	var tileBase = 'http://claslite.geary.joyeurs.com/tiles/';
 	var activateTab = {
 		location: function() {
+			enableGeoclick();
 			removeLayer();
 		},
 		forestcover: function() {
+			disableGeoclick();
 			addLayer( S(
 				'forestcover/peru_redd_',
 				app.$forestCoverDate.val(),
@@ -87,6 +89,7 @@
 			) );
 		},
 		forestchange: function() {
+			disableGeoclick();
 			addLayer( S(
 				'forestchange/',
 				app.$forestChangeStart.val().slice(-2),
@@ -97,7 +100,11 @@
 				'/'
 			) );
 		},
+		statistics: function() {
+			disableGeoclick();
+		},
 		help: function() {
+			disableGeoclick();
 		}
 	};
 	
@@ -191,6 +198,14 @@
 		).appendTo( legend );
 	}
 	
+	function enableGeoclick() {
+		app.geoclick && app.geoclick.enable();
+	}
+	
+	function disableGeoclick() {
+		app.geoclick && app.geoclick.disable();
+	}
+	
 	function addLayer( path ) {
 		removeLayer();
 		app.layer = app.map.addLayer({
@@ -217,7 +232,7 @@
 		}, 100 );
 		// END HACK
 		
-		app.map.geoclick({
+		app.geoclick = new app.map.Geoclick({
 			form: '#location-search-form',
 			input: '#location-search-input',
 			list: '#location-results-list',
