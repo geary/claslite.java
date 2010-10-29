@@ -59,6 +59,7 @@
 	
 	function initVars() {
 		app = {
+			layers: {},
 			$window: $(window),
 			$main: $('#main'),
 			$tabs: $('#tabs'),
@@ -69,6 +70,7 @@
 			$forestChangeEnd: $('#forestchange-date-end'),
 			$deforestationRadio: $('#deforestation-radio'),
 			$disturbanceRadio: $('#disturbance-radio'),
+			$bothRadio: $('#both-radio'),
 			$mapwrap: $('#mapwrap'),
 			_: null
 		};
@@ -78,33 +80,30 @@
 	var activateTab = {
 		location: function() {
 			enableGeoclick();
-			removeLayer();
+			removeLayers();
 		},
 		forestcover: function() {
 			disableGeoclick();
-			addLayer( 'forestcover', S(
-				'forestcover/peru_redd_',
-				app.$forestCoverDate.val(),
-				'_forestcover_geotiff_rgb/'
-			) );
+			removeLayers();
+			addForestCoverLayer( 'forestcover' );
 		},
 		forestchange: function() {
 			disableGeoclick();
-			addLayer( 'forestchange', S(
-				'forestchange/',
-				app.$forestChangeStart.val().slice(-2),
-				'_',
-				app.$forestChangeEnd.val().slice(-2),
-				'_',
-				app.$deforestationRadio.is(':checked') ? 'deforestation' : 'disturbance',
-				'/'
-			) );
+			removeLayers();
+			// TODO: there's probably a simpler way to do this:
+			var deforestation = app.$deforestationRadio.is(':checked');
+			var disturbance = app.$disturbanceRadio.is(':checked');
+			if( app.$bothRadio.is(':checked') ) deforestation = disturbance = true;
+			if( deforestation ) addForestChangeLayer( 'deforestation' );
+			if( disturbance ) addForestChangeLayer( 'disturbance' );
 		},
 		statistics: function() {
 			disableGeoclick();
+			removeLayers();
 		},
 		help: function() {
 			disableGeoclick();
+			removeLayers();
 		}
 	};
 	
@@ -206,19 +205,42 @@
 		app.geoclick && app.geoclick.disable();
 	}
 	
+	function addForestCoverLayer( id ) {
+		addLayer( id, S(
+			'forestcover/peru_redd_',
+			app.$forestCoverDate.val(),
+			'_forestcover_geotiff_rgb/'
+		) );
+	}
+	
+	function addForestChangeLayer( id ) {
+		addLayer( id, S(
+			'forestchange/',
+			app.$forestChangeStart.val().slice(-2),
+			'_',
+			app.$forestChangeEnd.val().slice(-2),
+			'_',
+			id,
+			'/'
+		) );
+	}
+	
 	function addLayer( id, path ) {
-		removeLayer();
-		app.layer = app.map.addLayer({
+		// TEMP HACK
+		var opid = id == 'forestcover' ? id : 'forestchange';
+		app.layers[id] = app.map.addLayer({
 			minZoom: 6,
 			maxZoom: 14,
-			opacity: $('#'+id+'-opacity').data('rangeinput').getValue() / 100,
+			opacity: $('#'+opid+'-opacity').data('rangeinput').getValue() / 100,
 			tiles: tileBase + path + '{Z}/{X}/{Y}.png'
 		});
 	}
 	
-	function removeLayer() {
-		app.layer && app.layer.remove();
-		delete app.layer;
+	function removeLayers() {
+		for( var id in app.layers ) {
+			app.layers[id].remove();
+			delete app.layers[id];
+		}
 	}
 	
 	function initMap() {
@@ -261,7 +283,18 @@
 		});
 		
 		$('input.layer-slider').bind( 'onSlide change', function( event, value ) {
-			app.layer && app.layer.setOpacity( value / 100 );
+			// TODO: clean this up
+			var id = this.id.split('-')[0];
+			value /= 100;
+			if( id == 'forestcover' ) {
+				set( id );
+			}
+			else {
+				set( 'deforestation' );
+				set( 'disturbance' );
+			}
+			
+			function set( id ) { app.layers[id] && app.layers[id].setOpacity( value ); }
 		});
 	}
 	
