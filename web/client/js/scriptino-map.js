@@ -226,6 +226,7 @@
 				
 				var $ul;
 				function hilite( $li, bounds ) {
+					if( ! $ul ) return;
 					sm.hoverPoly && sm.removePoly( sm.hoverPoly );
 					delete sm.hoverPoly;
 					$ul.find('li.hover').removeClass( 'hover' );
