@@ -185,7 +185,7 @@
 					gme.addListener( sm.map, 'click', function( event, latlng ) {
 						if( ! geoclick.enabled ) return;
 						if( ! v2 ) latlng = event.latLng;
-						geocode({ address: latlng.lat() + ',' + latlng.lng() });
+						geocode({ address: latlng.lat() + ',' + latlng.lng() }, { click: true });
 						opt.onclick && opt.onclick();
 					});
 				
@@ -206,13 +206,16 @@
 					sm.hoverPoly = sm.addBoundsPoly( bounds );
 				}
 				
-				function geocode( request ) {
+				function geocode( request, opt ) {
+					opt = opt || {};
 					sm.geocoder.geocode( request, function( results, status ) {
 						$ul = $('<ul class="geocode-list">');
 						if( status == gm.GeocoderStatus.OK ) {
+							var outer = new gm.LatLngBounds;
 							results.forEach( function( result, i ) {
 								if( ! result.geometry ) return;
 								var viewport = result.geometry.viewport, bounds = result.geometry.bounds || viewport;
+								if( ! opt.click ) outer = outer.union( bounds );
 								var $li = $('<li class="geocode-item">')
 									.text( result.formatted_address )
 									.appendTo($ul)
@@ -229,6 +232,7 @@
 									});
 								if( i == 0 ) hilite( $li, bounds );
 							});
+							if( ! opt.click ) map.fitBounds( outer );
 						}
 						$list.html( $ul );
 					});
