@@ -82,7 +82,7 @@
 		},
 		forestcover: function() {
 			disableGeoclick();
-			addLayer( S(
+			addLayer( 'forestcover', S(
 				'forestcover/peru_redd_',
 				app.$forestCoverDate.val(),
 				'_forestcover_geotiff_rgb/'
@@ -90,7 +90,7 @@
 		},
 		forestchange: function() {
 			disableGeoclick();
-			addLayer( S(
+			addLayer( 'forestchange', S(
 				'forestchange/',
 				app.$forestChangeStart.val().slice(-2),
 				'_',
@@ -136,7 +136,7 @@
 	}
 	
 	function initRangeInputs() {
-		$("input:range").rangeinput();
+		$('input:range').rangeinput();
 	}
 	
 	function initDateSelects() {
@@ -206,12 +206,12 @@
 		app.geoclick && app.geoclick.disable();
 	}
 	
-	function addLayer( path ) {
+	function addLayer( id, path ) {
 		removeLayer();
 		app.layer = app.map.addLayer({
 			minZoom: 6,
 			maxZoom: 14,
-			opacity: $('#forestcover-opacity').data('rangeinput').getValue() / 100,
+			opacity: $('#'+id+'-opacity').data('rangeinput').getValue() / 100,
 			tiles: tileBase + path + '{Z}/{X}/{Y}.png'
 		});
 	}
