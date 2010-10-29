@@ -156,11 +156,14 @@
 				return layer;
 			},
 			
-			fitBounds: function( s, w, n, e ) {
-				var bounds = new gm.LatLngBounds(
-					new gm.LatLng( s, w ),
-					new gm.LatLng( n, e )
-				);
+			fitBounds: function( s, w, n, e ) {  // or ( bounds )
+				var bounds =
+					arguments.length == 1 ?
+						s :
+						new gm.LatLngBounds(
+							new gm.LatLng( s, w ),
+							new gm.LatLng( n, e )
+						);
 				if( v2 ) {
 					var zoom = map.getBoundsZoomLevel( bounds );
 					map.setCenter( bounds.getCenter(), zoom || 4 );
@@ -222,6 +225,7 @@
 									.click( function( event ) {
 										$ul.find('li.active').removeClass( 'active' );
 										$li.addClass( 'active' );
+										sm.fitBounds( bounds );
 									});
 								if( i == 0 ) hilite( $li, bounds );
 							});
