@@ -222,8 +222,7 @@
 	}
 	
 	function initMap() {
-		//var bounds = [ -26, -80, 5, -35 ];
-		var bounds = [ -13.186159, -70.962916, -10.960249, -68.705582 ];
+		var bounds = [ -26, -80, 5, -35 ];
 		var mt = google.maps.MapTypeId;
 		app.map = new S.Map( app.$mapwrap, {
 			v3: {
