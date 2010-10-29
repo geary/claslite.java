@@ -63,7 +63,7 @@
 			$main: $('#main'),
 			$tabs: $('#tabs'),
 			$sidebarOuter: $('#sidebar-outer'),
-			$sidebar: $('#sidebar'),
+			$sidebarScrolling: $('#sidebar-scrolling'),
 			$forestCoverDate: $('#forestcover-date'),
 			$forestChangeStart: $('#forestchange-date-start'),
 			$forestChangeEnd: $('#forestchange-date-end'),
@@ -111,7 +111,7 @@
 	function initTabs() {
 		app.tabOpts = {
 			parent: '#tabs',
-			panels: '#sidebar',
+			panels: '#sidebar-scrolling',
 			tabs: {
 				location: 'Location',
 				forestcover: 'Forest Cover',

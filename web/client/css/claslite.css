@@ -259,7 +259,7 @@ ul.tabs a.hover span {
 	height: 100%;
 }
 
-#sidebar {
+#sidebar-scrolling {
 	margin: 12px 10px;
 	width: 100%;
 }
@@ -437,7 +437,17 @@ div.slider-panel {
 	height: 100%;
 }
 
-/* CIS logo */
+/* Logos */
+
+#earth-engine-logo {
+	position: absolute;
+	left: 10px;
+	bottom: 6px;
+	width: 253px;
+	height: 61px;
+	font-size: 14px;
+	background: url(../images/earth-engine-logo.png) no-repeat 0 18px;
+}
 
 #cis-logo {
 	position: absolute;
