@@ -224,13 +224,33 @@
 	function initMap() {
 		//var bounds = [ -26, -80, 5, -35 ];
 		var bounds = [ -13.186159, -70.962916, -10.960249, -68.705582 ];
-		app.map = new S.Map( app.$mapwrap );
+		var mt = google.maps.MapTypeId;
+		app.map = new S.Map( app.$mapwrap, {
+			v3: {
+				mapTypeId: mt.ROADMAP,
+				streetViewControl: false,
+				mapTypeControlOptions: {
+					mapTypeIds: [
+						mt.ROADMAP, mt.SATELLITE, mt.HYBRID, mt.TERRAIN,
+						'black', 'white'
+					]
+				}
+			}
+		});
+		
+		if( S.Map.v3 ) {
+			addSolidMapType( 'black', '#000000', 'Black', 'Show solid black background' );
+			addSolidMapType( 'white', '#FFFFFF', 'White', 'Show solid white background' );
+		}
+		
 		app.map.fitBounds.apply( app.map, bounds );
-		// HACK FOR V2 MAPS API:
-		setTimeout( function() {
-			app.map.fitBounds.apply( app.map, bounds );
-		}, 100 );
-		// END HACK
+		if( app.map.v2 ) {
+			// HACK FOR V2 MAPS API:
+			setTimeout( function() {
+				app.map.fitBounds.apply( app.map, bounds );
+			}, 100 );
+			// END HACK
+		}
 		
 		app.geoclick = new app.map.Geoclick({
 			form: '#location-search-form',
@@ -244,6 +264,12 @@
 		$('input.layer-slider').bind( 'onSlide change', function( event, value ) {
 			app.layer && app.layer.setOpacity( value / 100 );
 		});
+	}
+	
+	function addSolidMapType( id, color, name, alt ) {
+		app.map.map.mapTypes.set( id,
+			new S.Map.v3.SolidMapType({ color:color, name:name, alt:alt })
+		);
 	}
 	
 	function initSizer() {

@@ -11,38 +11,9 @@
 		gme = gm.Event;
 	}
 	else {
-		var TileMapType = function( opt ) {
-			var tiles = {};
-			var opacity = opt.opacity == null ? 1 : opt.opacity;
-			var mt = S.extend( this, {
-				tileSize: opt.tileSize,
-				minZoom: opt.minZoom,
-				maxZoom: opt.maxZoom,
-				getTile: function( coord, zoom, doc ) {
-					var url = opt.getTileUrl( coord, zoom );
-					var id = url.replace( /\W+/g, '-' );
-					var tile = doc.createElement('tile');
-					tile.id = id;
-					tile.style.width = opt.tileSize.width + 'px';
-					tile.style.height = opt.tileSize.height + 'px';
-					tile.style.backgroundImage = 'url(' + url + ')';
-					tile.style.opacity = opacity;
-					tiles[id] = tile;
-					return tile;
-				},
-				releaseTile: function( tile ) {
-					delete tiles[ tile.id ];
-				},
-				setOpacity: function( _opacity ) {
-					opacity = _opacity;
-					for( var id in tiles )
-						tiles[id].style.opacity = opacity;
-				}
-			});
-		};
 	}
 	
-	S.Map = function( $map ) {
+	S.Map = function( $map, opt ) {
 		var sm = this;
 		$map = $($map);
 		
@@ -58,10 +29,7 @@
 			map.addControl( new GMapTypeControl );
 		}
 		else {
-			var map = sm.map = new gm.Map( $map[0], {
-				mapTypeId: google.maps.MapTypeId.ROADMAP,
-				streetViewControl: false
-			});
+			var map = sm.map = new gm.Map( $map[0], opt.v3 );
 		}
 		
 		S.extend( sm, {
@@ -166,7 +134,7 @@
 					
 				}
 				else {
-					var mapType = new TileMapType({
+					var mapType = new S.Map.v3.TileMapType({
 						minZoom: opt.minZoom,
 						maxZoom: opt.maxZoom,
 						tileSize: new gm.Size( 256, 256 ),
@@ -307,6 +275,60 @@
 			//console.log( 'Scriptino_singleclick', event.latLng );
 		});
 	};
+	
+	S.extend( S.Map, v2 ? {
+		v2: {
+		}
+	} : {
+		v3: {
+			SolidMapType: function( opt ) {
+				var mt = S.extend( this, {
+					name: opt.name,
+					alt: opt.alt,
+					tileSize: new gm.Size( 256, 256 ),
+					minZoom: 0,
+					maxZoom: Infinity,
+					getTile: function( coord, zoom, doc ) {
+						var tile = doc.createElement( 'div' );
+						tile.style.width = '256px';
+						tile.style.height = '256px';
+						tile.style.backgroundColor = opt.color;
+						return tile;
+					}
+				});
+			},
+			
+			TileMapType: function( opt ) {
+				var tiles = {};
+				var opacity = opt.opacity == null ? 1 : opt.opacity;
+				var mt = S.extend( this, {
+					tileSize: opt.tileSize,
+					minZoom: opt.minZoom,
+					maxZoom: opt.maxZoom,
+					getTile: function( coord, zoom, doc ) {
+						var url = opt.getTileUrl( coord, zoom );
+						var id = url.replace( /\W+/g, '-' );
+						var tile = doc.createElement('tile');
+						tile.id = id;
+						tile.style.width = opt.tileSize.width + 'px';
+						tile.style.height = opt.tileSize.height + 'px';
+						tile.style.backgroundImage = 'url(' + url + ')';
+						tile.style.opacity = opacity;
+						tiles[id] = tile;
+						return tile;
+					},
+					releaseTile: function( tile ) {
+						delete tiles[ tile.id ];
+					},
+					setOpacity: function( _opacity ) {
+						opacity = _opacity;
+						for( var id in tiles )
+							tiles[id].style.opacity = opacity;
+					}
+				});
+			}
+		}
+	});
 	
 	S.Geocoder = function() {
 		var sg = this;
