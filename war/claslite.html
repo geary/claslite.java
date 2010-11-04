@@ -1,0 +1,302 @@
+
+<html>
+<head>
+	
+	<title>CLASlite Forest Monitoring by Carnegie</title>
+	
+	<link type="text/css" href="css/claslite.css" rel="stylesheet" />
+	
+	<script type="text/javascript">
+		document.write(
+			'<script type="text/javascript" src="js/apiloader-', location.host.replace(':','-'), '.js">',
+			'<\/script>'
+		);
+	</script>
+	<script type="text/javascript">
+		(function() {
+			//google.load( 'jquery', '1.4.2' );
+			google.load( 'jquery', '1.4.2', { uncompressed:true } );
+			
+			var match = location.search.match( /\Wv=(\d+)/ );
+			var apiver = match && match[1] || '3';
+			google.load( 'maps', apiver, { other_params: 'sensor=false' } );
+		})();
+	</script>
+	
+	
+	<script type="text/javascript" src="js/scriptino-base.js"></script>
+	<script type="text/javascript" src="js/scriptino-tabs.js"></script>
+	<script type="text/javascript" src="js/scriptino-map.js"></script>
+	<script type="text/javascript" src="js/rangeinput.js"></script>
+	<script type="text/javascript" src="js/mColorPicker.js"></script>
+	<script type="text/javascript" src="js/claslite.js"></script>
+	
+</head>
+<body>
+	
+	<!-- Begin Page -->
+	
+	<div id="outermost" style="display:none;">
+		
+		<!-- Begin Header -->
+		
+		<div id="header">
+			
+			<div id="header-tagline">
+				Forest Monitoring<br />by Carnegie
+			</div>
+			
+			<div id="header-links">
+				
+				<div id="site-links">
+					<b>CLASlite</b>
+					<span class="pipe">|</span>
+					<a href="http://claslite.ciw.edu/en/">Website</a>
+					<span class="pipe">|</span>
+					<a href="http://code.google.com/p/claslite/source/browse/web/client/claslite.html">Code</a>
+					<span class="pipe">|</span>
+					<a href="#">About</a>
+					<span class="pipe">|</span>
+					<a href="http://blog.google.org/2009/12/earth-engine-powered-by-google.html">Earth Engine</a>
+					<span class="pipe">|</span>
+					<a href="#">More</a>
+				</div>
+				
+				<div id="user-links">
+					<b>clasliteuser@gmail.com</b>
+					<span class="pipe">|</span>
+					<a href="#">My account</a>
+					<span class="pipe">|</span>
+					<a href="#">Help</a>
+					<span class="pipe">|</span>
+					<a href="#">Sign out</a>
+				</div>
+				
+			</div>
+			
+		</div>
+		
+		<!-- End Header -->
+		
+		<!-- Begin Tabs -->
+		
+		<div id="tabs" class="tabs">
+		</div>
+		
+		<div id="tabs-base">
+		</div>
+		
+		<!-- End Tabs -->
+		
+		<!-- Begin Main Body -->
+		
+		<div id="main">
+			
+			<!-- Begin Sidebar Panels -->
+			
+			<div id="sidebar-outer">
+				
+				<div id="sidebar-scrolling">
+					
+					<!-- Begin Location Panel -->
+					
+					<div class="tab-panel" id="location-panel">
+						<form id="location-search-form">
+							
+							<label for="location-search-input">Click the map or search for a location:</label>
+							<input id="location-search-input" />
+							
+							<div id="location-search-buttons">
+								<a href="#" id="show-search-options">Advanced search&#8230;</a>
+								<button class="submit" type="submit" id="location-search-submit">Search</button>
+								<div class="clear-right"></div>
+							</div>
+							
+						</form>
+						
+						<div id="location-results-list">
+						</div>
+						
+					</div>
+					
+					<!-- End Location Panel -->
+					
+					<!-- Begin Forest Cover Panel -->
+					
+					<div class="tab-panel" id="forestcover-panel">
+						
+						<form class="input-form" id="forestcover-input-form">
+							
+							<div class="float-right">
+								<button class="submit view-button" type="submit" id="view-forestcover">View</button>
+							</div>
+							
+							<div style="margin-bottom:16px;">
+								<label class="year-label" for="forestcover-date-start">
+									<b>Year:</b>
+								</label>
+								<select class="date-select" id="forestcover-date">
+								</select>
+							</div>
+							
+							<div class="clear-right">
+							</div>
+							
+							<div class="color-picker-row">
+								<input class="color-picker" data-hex="true" name="forest-color" id="forest-color" value="#00ff00">
+								<label for="forest-color">Forest</label>
+							</div>
+							<div class="color-picker-row">
+								<input class="color-picker" data-hex="true" name="nonforest-color" id="nonforest-color" value="#ee9a00">
+								<label for="nonforest-color">Non-forest</label>
+							</div>
+							<div class="color-picker-row">
+								<input class="color-picker" data-hex="true" name="nodata-color" id="nodata-color" value="#000000">
+								<label for="nodata-color">No data</label>
+							</div>
+							
+						</form>
+						
+						<div class="slider-panel">
+							<label for="forestcover-opacity" class="slider-label">Opacity</label>
+							<input type="range" class="range layer-slider" min="0" max="100" value="50" id="forestcover-opacity" />
+						</div>
+						
+						<div class="clear-both">
+						</div>
+						
+						<div class="section">
+							<img class="toggle-expand" src="images/toggle-expand.png" />
+							Advanced
+						</div>
+						
+						<div class="section">
+							<img class="toggle-expand" src="images/toggle-expand.png" />
+							About
+						</div>
+						
+					</div>
+					
+					<!-- End Forest Cover Panel -->
+					
+					<!-- Begin Forest Change Panel -->
+					
+					<div class="tab-panel" id="forestchange-panel">
+						
+						<form class="input-form" id="forestchange-input-form">
+							
+							<div class="float-right">
+								<button class="submit view-button" type="submit" id="view-forestchange">View</button>
+							</div>
+							
+							<div>
+								
+								<label for="forestchange-date-start">
+									<b>Years:</b>
+								</label>
+								<select class="date-select" id="forestchange-date-start">
+								</select>
+								
+								<label for="forestchange-date-end" style="xmargin-left:4px;">
+									<b>&ndash;</b>
+								</label>
+								<select class="date-select" id="forestchange-date-end">
+								</select>
+								
+							</div>
+							
+							<div class="clear-right">
+							</div>
+							
+							<div class="section">
+								Layers:
+							</div>
+							
+							<div id="deforestation-layer">
+								<input type="radio" name="forestchange-layer-radio" id="deforestation-radio" checked="checked" />
+								<label for="deforestation-radio">Deforestation</label>
+								<div id="deforestation-legend"></div>
+							</div>
+							
+							<div id="disturbance-layer" style="margin-top:8px;">
+								<input type="radio" name="forestchange-layer-radio" id="disturbance-radio" />
+								<label for="disturbance-radio">Forest Disturbance</label>
+								<div id="disturbance-legend"></div>
+							</div>
+							
+							<div id="both-layer">
+								<input type="radio" name="forestchange-layer-radio" id="both-radio" />
+								<label for="both-radio">Both</label>
+							</div>
+							
+						</form>
+						
+						<div class="slider-panel">
+							<label for="forestchange-opacity" class="slider-label">Opacity</label>
+							<input type="range" class="range layer-slider" min="0" max="100" value="100" id="forestchange-opacity" />
+						</div>
+						
+						<div class="clear-both">
+						</div>
+						
+						<div class="section">
+							<img class="toggle-expand" src="images/toggle-expand.png" />
+							Advanced
+						</div>
+						
+						<div class="section">
+							<img class="toggle-expand" src="images/toggle-expand.png" />
+							About
+						</div>
+						
+					</div>
+					
+					<!-- End Forest Change Panel -->
+					
+					<!-- Begin Statistics Panel -->
+					
+					<div class="tab-panel" id="statistics-panel">
+						Statistics will be here
+					</div>
+					
+					<!-- End Statistics Panel -->
+					
+					<!-- Begin Help Panel -->
+					
+					<div class="tab-panel" id="help-panel">
+						
+						<object width="330" height="280"><param name="movie" value="http://www.youtube.com/v/TU7JjJJZi1Q?fs=1&amp;hl=en_US&amp;rel=0&amp;autoplay=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/TU7JjJJZi1Q?fs=1&amp;hl=en_US&amp;rel=0&amp;autoplay=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="330" height="280"></embed></object>
+						
+					</div>
+					
+					<!-- End Help Panel -->
+					
+				</div>
+				
+			</div>
+			
+			<!-- End Sidebar Panels -->
+			
+			<!-- Begin Map -->
+			
+			<div id="mapwrap">
+			</div>
+			
+			<!-- End Map -->
+			
+		</div>
+		
+		<!-- End Main Body -->
+		
+		<div id="earth-engine-logo">
+		</div>
+		
+		<div id="cis-logo">
+		</div>
+		
+	</div>
+	
+	<!-- End Page -->
+	
+</body>
+</html>
