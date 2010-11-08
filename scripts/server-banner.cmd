@@ -1,7 +1,7 @@
 @echo off
 
 echo +-------------------------------+
-echo + Starting CLAlite Server       +
+echo + Starting CLASlite Server      +
 echo + Use Ctrl+C to stop the server +
 echo +-------------------------------+
 
