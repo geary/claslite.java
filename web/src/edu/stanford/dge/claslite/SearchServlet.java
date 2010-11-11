@@ -27,7 +27,7 @@ public class SearchServlet extends HttpServlet {
 
 			String password = PrivateData.getPassword();
 			
-			FusionTablesAccess access = new FusionTablesAccess("imazonsad",password);
+			FusionTablesAccess access = new FusionTablesAccess("carnegieclaslite",password);
 			//FusionTablesAccess access = new FusionTablesAccess("imazonsad","foobar");
 			HashMap<String, String> tables = access.getTables();
 			ArrayList<HashMap<String, String>> polygons = access.getPolygons(req.getQueryString(), tables);
