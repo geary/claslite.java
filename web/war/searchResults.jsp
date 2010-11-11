@@ -17,11 +17,12 @@
     </head>
     <body>
     
+    index : table id : table name: row id : row name <br/>
  <%
     ArrayList<HashMap<String, String>> result = (ArrayList<HashMap<String,String>>) session.getAttribute("polygonNames");
     for (HashMap<String,String> item : result) {
   %>
-    <a href="claslite.jsp?poly=<%= item.get("index")%>"><%= item.get("description") %><br></a>
+    <%= item.get("index")%> : <%= item.get("table_id") %> : <%= item.get("table_name") %> : <%= item.get("name") %> : <%= item.get("description") %> <br/>
  
   <% } %>   
     
