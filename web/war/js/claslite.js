@@ -298,6 +298,7 @@
 			
 			function set( id ) { app.layers[id] && app.layers[id].setOpacity( value ); }
 		});
+		
 	}
 	
 	function removePoweredBy() {
